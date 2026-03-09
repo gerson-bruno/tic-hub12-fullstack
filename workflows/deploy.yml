@@ -1,0 +1,46 @@
+name: Deploy Vite Project
+
+on:
+  push:
+    branches: [ main ] # Ou a sua branch principal
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          # Aponta para o package-lock.json dentro da subpasta
+          cache-dependency-path: tic-hub12-fullstack/atividade-aula03-vue-js/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: tic-hub12-fullstack/atividade-aula03-vue-js/
+
+      - name: Build
+        run: npm run build
+        working-directory: tic-hub12-fullstack/atividade-aula03-vue-js/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Define a pasta 'dist' gerada dentro da sua subpasta
+          path: tic-hub12-fullstack/atividade-aula03-vue-js/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
