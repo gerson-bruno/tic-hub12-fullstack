@@ -1,9 +1,19 @@
 <template>
-  <div class="product-card">
-    <h3>{{ product.name }}</h3>
-    <p>Categoria: {{ product.category.title }}</p>
-    <p>Preço: R$ {{ product.price }}</p>
-    <button @click="add">Adicionar</button>
+  <div class="card">
+    <!-- Imagem do produto -->
+    <img :src="product.image" :alt="product.name" class="product-image" />
+
+    <!-- Categoria -->
+    <p class="category">{{ product.category.title }}</p>
+
+    <!-- Nome -->
+    <h3 class="product-name">{{ product.name }}</h3>
+
+    <!-- Preço -->
+    <p class="price">R$ {{ product.price }}</p>
+
+    <!-- Botão -->
+    <button @click="$emit('add-to-cart', product)">Adicionar</button>
   </div>
 </template>
 
@@ -14,14 +24,10 @@ import { type Product } from '../models/Product';
 export default defineComponent({
   name: 'ProductCard',
   props: {
-    product: { type: Object as PropType<Product>, required: true }
-  },
-  emits: ['add-to-cart'],
-  methods: {
-    add() {
-      this.$emit('add-to-cart', this.product);
+    product: {
+      type: Object as PropType<Product>,
+      required: true
     }
   }
 });
 </script>
-

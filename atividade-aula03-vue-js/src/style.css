@@ -10,7 +10,8 @@
   --color-primary: #e8e8e8; 
   --color-secondary: #b90504; 
   --color-accent: #990100;  
-  --color-dark: #333333;    
+  --color-dark: #333333; 
+  --color-category: #6c402c;   
 
   color-scheme: light;
   color: var(--color-dark);
@@ -28,7 +29,7 @@ body {
 
 h1 {
   font-size: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   color: var(--color-dark);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -43,23 +44,45 @@ h1 {
 }
 
 .card {
-  background-color: var(--color-dark);
+  background-color: #ffffff;;
   padding: 1.5rem;
   border-radius: 10px;
   overflow: hidden;
   width: 220px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
   transition: transform 0.3s, box-shadow 0.3s;
-  color: var(--color-bg);
+  color: var(--color-dark);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
+
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(0,0,0,0.25);
 }
 
+.card h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px rgba(0,0,0,0.2);
+}
+
+.price {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: var(--color-secondary);
+  text-shadow: 1px 1px rgba(0,0,0,0.2);
+}
+
+.category {
+  font-size: 0.6rem;
+  margin: 0.5rem 0;
+  color: var(--color-category);
+}
 
 button {
   border-radius: 8px;
@@ -85,8 +108,10 @@ button:hover {
   margin: 5px;
 }
 
+
+
 .cart {
-  margin-top: 2rem;
+  margin: 2rem auto;
   background-color: var(--color-primary);
   border-radius: 10px;
   padding: 1.5rem;
@@ -94,6 +119,7 @@ button:hover {
   max-width: 400px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
+
 
 .cart h2 {
   margin-top: 0;

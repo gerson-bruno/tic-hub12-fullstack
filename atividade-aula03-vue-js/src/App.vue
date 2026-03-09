@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Loja de Eletrônicos</h1>
+    <h1>Loja de Eletrônicos e Games</h1>
 
     <div class="products">
       <ProductCard
@@ -34,6 +34,11 @@ import { type Product } from './models/Product';
 import { type Category } from './models/Category';
 import { Cart } from './models/Cart';
 
+// IMPORT DAS IMAGENS NO TOPO
+import smartphoneImg from './assets/smartphone.jpg';
+import notebookImg from './assets/notebook.jpg';
+import videogameImg from './assets/videogame.jpg';
+
 export default defineComponent({
   name: 'App',
   components: { ProductCard },
@@ -42,9 +47,9 @@ export default defineComponent({
     const games: Category = { id: 2, title: 'Video Game' };
 
     const products: Product[] = [
-      { id: 1, name: 'Smartphone', price: 2000, category: electronics },
-      { id: 2, name: 'Notebook', price: 4500, category: electronics },
-      { id: 3, name: 'Video Game', price: 3280, category: games },
+      { id: 1, name: 'iPhone 17 Pro Max', price: 12499, category: electronics, image: smartphoneImg },
+      { id: 2, name: 'Notebook VAIO FE16', price: 6250, category: electronics, image: notebookImg },
+      { id: 3, name: 'Playstation 5', price: 3999, category: games, image: videogameImg }
     ];
 
     const cart = reactive(new Cart());
