@@ -19,7 +19,8 @@
       <ul>
         <li v-for="item in cart.getItems()" :key="item.product.id">
           {{ item.product.name }} x {{ item.quantity }}
-          <button @click="removeFromCart(item.product.id)">Remover</button>
+          <button @click="removeOneFromCart(item.product.id)">Remover</button>
+          <button @click="removeFromCart(item.product.id)">Limpar</button>
         </li>
       </ul>
     </div>
@@ -29,8 +30,8 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 import ProductCard from './components/ProductCard.vue';
-import { Product } from './models/Product';
-import { Category } from './models/Category';
+import { type Product } from './models/Product';
+import { type Category } from './models/Category';
 import { Cart } from './models/Cart';
 
 export default defineComponent({
@@ -38,25 +39,21 @@ export default defineComponent({
   components: { ProductCard },
   setup() {
     const electronics: Category = { id: 1, title: 'Eletrônicos' };
-    const books: Category = { id: 2, title: 'Livros' };
+    const games: Category = { id: 2, title: 'Video Game' };
 
     const products: Product[] = [
       { id: 1, name: 'Smartphone', price: 2000, category: electronics },
       { id: 2, name: 'Notebook', price: 4500, category: electronics },
-      { id: 3, name: 'Livro TS', price: 120, category: books },
+      { id: 3, name: 'Video Game', price: 3280, category: games },
     ];
 
     const cart = reactive(new Cart());
 
     const addToCart = (product: Product) => cart.addItem(product);
     const removeFromCart = (productId: number) => cart.removeItem(productId);
+    const removeOneFromCart = (productId: number) => cart.removeOne(productId);
 
-    return { products, cart, addToCart, removeFromCart };
+    return { products, cart, addToCart, removeFromCart, removeOneFromCart };
   }
 });
 </script>
-
-<style>
-.products { display: flex; flex-wrap: wrap; }
-.cart { margin-top: 20px; }
-</style>

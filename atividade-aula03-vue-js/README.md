@@ -1,5 +1,17 @@
-# Vue 3 + TypeScript + Vite
+# E-commerce Vue.js + TypeScript
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este projeto é uma implementação prática do exercício da disciplina de **Full Stack**, utilizando **Vue.js com Options API** e **TypeScript**.  
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+O objetivo é integrar as **Models de produtos e carrinho** desenvolvidas em TypeScript com uma interface no navegador, permitindo:  
+
+- Listar produtos dinamicamente  
+- Adicionar produtos ao carrinho  
+- Remover produtos ou unidades do carrinho  
+- Visualizar o total de itens e o preço final  
+
+## Tecnologias utilizadas
+
+- [Vue.js 3](https://vuejs.org/) com Options API  
+- [TypeScript](https://www.typescriptlang.org/)  
+- CSS moderno com paleta personalizada  
+

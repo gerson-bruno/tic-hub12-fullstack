@@ -20,6 +20,14 @@ export class Cart {
     this.items = this.items.filter(item => item.product.id !== productId);
   }
 
+  removeOne(productId: number): void {
+  this.items = this.items.map(item => {
+    if (item.product.id === productId) {
+      item.quantity -= 1;
+    }
+    return item;
+  }).filter(item => item.quantity > 0);  
+}
   getTotalItems(): number {
     return this.items.reduce((total, item) => total + item.quantity, 0);
   }
@@ -32,3 +40,4 @@ export class Cart {
     return this.items;
   }
 }
+

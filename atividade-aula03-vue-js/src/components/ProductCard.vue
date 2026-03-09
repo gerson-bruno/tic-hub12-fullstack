@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Product } from '../models/Product';
+import { defineComponent, type PropType } from 'vue';
+import { type Product } from '../models/Product';
 
 export default defineComponent({
   name: 'ProductCard',
@@ -25,10 +25,3 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.product-card {
-  border: 1px solid #ccc;
-  padding: 8px;
-  margin: 5px;
-}
-</style>
