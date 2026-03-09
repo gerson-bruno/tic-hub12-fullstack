@@ -38,8 +38,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Define a pasta 'dist' gerada dentro da sua subpasta
-          path: tic-hub12-fullstack/atividade-aula03-vue-js/dist
+            # APONTE PARA A RAIZ DO REPOSITÓRIO
+        path: .
 
       - name: Deploy to GitHub Pages
         id: deployment
