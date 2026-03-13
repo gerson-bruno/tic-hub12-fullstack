@@ -1,24 +1,26 @@
 <template>
 
-<div class="container mx-auto p-6">
+<div class="max-w-5xl mx-auto py-8">
 
-<h1 class="text-3xl font-bold mb-6">
-Cafeteria do Mago! ☕🧙🏼
+<h1 class="text-3xl font-bold mb-2 text-center text-amber-900">
+Cafeteria do Mago ☕🧙🏼
 </h1>
-<h2>O seu melhor café é aqui!</h2>
 
-<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-<ProductCard
-v-for="product in products"
-:key="product.id"
-:product="product"
-@add="addToCart"
-/>
+<p class="text-center text-gray-500 mb-10">
+O seu melhor café é aqui!
+</p>
 
+<div class="grid grid-cols-4 gap-10 justify-items-center">
+    <div v-for="product in products" :key="product.id" class="w-full">
+    <ProductCard
+      :product="product"
+      @add="addToCart"
+    />
+  </div>
 </div>
 
-<h2 class="text-2xl font-bold mt-10 mb-4">
+<h2 class="text-2xl font-bold mt-12 mb-4">
 Carrinho
 </h2>
 
@@ -52,6 +54,7 @@ showButtons
 buttonLayout="horizontal"
 incrementButtonIcon="pi pi-plus"
 decrementButtonIcon="pi pi-minus"
+:min="1"
 />
 
 </div>
@@ -77,7 +80,7 @@ class="mt-4"
 <script lang="ts">
 
 import ProductCard from './components/ProductCard.vue'
-import {type Product, type CartItem } from './types/types'
+import { type Product, type CartItem } from './types/types'
 
 export default {
 
@@ -93,26 +96,30 @@ products: [
 {
 id: 1,
 name: "Café Especial Sul de Minas 250g",
-description: "Torra média, notas de chocolate e caramelo",
-price: 28
+description: "Café especial de torra média produzido no Sul de Minas. Possui notas naturais de chocolate e caramelo, corpo equilibrado e aroma marcante, ideal para preparo filtrado ou espresso.",
+price: 28,
+image: "./src/assets/coffee01.png"
 },
 {
 id: 2,
 name: "Café Cerrado Mineiro 250g",
-description: "Torra média-clara, acidez equilibrada",
-price: 32
+description: "Café cultivado no Cerrado Mineiro com torra média-clara e acidez equilibrada. Apresenta notas suaves de frutas secas e chocolate, com finalização limpa e aroma agradável.",
+price: 32,
+image: "./src/assets/coffee02.png"
 },
 {
 id: 3,
-name: "Coador Hario V60",
-description: "Coador manual para preparo filtrado",
-price: 79
+name: "Coador de Café - Hario V60",
+description: "Coador manual de café para preparo filtrado. O V60 possui 6 ranhuras em espiral e um grande furo central, que juntos aceleram o fluxo de água, evitam o amargor e produzem um café mais limpo, aromático e com acidez destacada.",
+price: 79,
+image: "./src/assets/coffee03.png"
 },
 {
 id: 4,
-name: "Moedor Manual de Café",
-description: "Moagem ajustável para diferentes métodos",
-price: 145
+name: "Moedor Manual de Café - Hario Slim 24g",
+description: "Moedor manual com ajuste de granulometria para diferentes métodos de preparo. Permite moer o café na hora, preservando aroma, sabor e frescor dos grãos.",
+price: 145,
+image: "./src/assets/coffee04.png"
 }
 ],
 
@@ -148,8 +155,9 @@ this.$confirm.require({
 message:"Deseja remover todos os itens?",
 header:"Confirmação",
 
-acceptLabel: "Sim",
-rejectLabel: "Não",
+acceptLabel:"Sim",
+rejectLabel:"Não",
+
 accept: () => {
 this.cart = []
 }

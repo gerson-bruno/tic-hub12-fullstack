@@ -1,6 +1,12 @@
 <template>
 
-<Card class="shadow-lg rounded-xl h-full flex flex-col justify-between">
+<Card class="shadow-lg rounded-xl overflow-hidden w-60">
+  <template #header>
+<img 
+:src="product.image"
+class="w-full h-40 object-cover"
+/>
+</template>
 
 <template #title>
 {{ product.name }}
@@ -32,7 +38,6 @@ size="small"
 </template>
 
 <script lang="ts">
-
 import type { Product } from "../types/types"
 
 export default {
@@ -47,5 +52,4 @@ required: true
 emits: ["add"]
 
 }
-
 </script>

@@ -3,7 +3,7 @@ import App from './App.vue'
 import './style.css'
 
 import PrimeVue from 'primevue/config'
-import Lara from '@primevue/themes/lara'
+import Aura from '@primevue/themes/aura'
 
 import Button from 'primevue/button'
 import Card from 'primevue/card'
@@ -18,7 +18,7 @@ const app = createApp(App)
 
 app.use(PrimeVue, {
   theme: {
-    preset: Lara
+    preset: Aura
   }
 })
 
