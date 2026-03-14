@@ -8,28 +8,28 @@ import AdminLayout from "../views/admin/AdminLayout.vue"
 import AdminProducts from "../views/admin/AdminProducts.vue"
 import AdminReports from "../views/admin/AdminReports.vue"
 
+// Simulação de usuário logado/admin
+const isAuthenticated = true
+const isAdmin = true
+
 const routes = [
-
-{
-path: "/",
-name: "home",
-component: Home
-},
-
-{
-path: "/product/:id",
-name: "product",
-component: ProductDetail
-},
-
-{
-path: "/checkout",
-name: "checkout",
-component: Checkout,
-meta: { requiresAuth: true }
-},
-
-{
+  {
+    path: "/",
+    name: "home",
+    component: Home
+  },
+  {
+    path: "/product/:id",
+    name: "product",
+    component: ProductDetail
+  },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: Checkout,
+    meta: { requiresAuth: true }
+  },
+  {
     path: "/admin",
     component: AdminLayout,
     meta: { requiresAdmin: true },
@@ -38,35 +38,26 @@ meta: { requiresAuth: true }
       { path: "reports", component: AdminReports }
     ]
   }
-
 ]
 
 const router = createRouter({
-history: createWebHistory(),
-routes
+  history: createWebHistory(),
+  routes
 })
 
-/* Guards */
-
+// Guards
 router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    alert("Você precisa estar logado.")
+    return next("/")
+  }
 
-const isAuthenticated = false
-const isAdmin = false //para acessar o admin precisa estar true
-//http://localhost:5173/admin/products
-//http://localhost:5173/admin/reports
+  if (to.meta.requiresAdmin && !isAdmin) {
+    alert("Acesso restrito ao admin.")
+    return next("/")
+  }
 
-if (to.meta.requiresAuth && !isAuthenticated) {
-alert("Você precisa estar logado.")
-return next("/")
-}
-
-if (to.meta.requiresAdmin && !isAdmin) {
-alert("Acesso restrito ao admin.")
-return next("/")
-}
-
-next()
-
+  next()
 })
 
 export default router

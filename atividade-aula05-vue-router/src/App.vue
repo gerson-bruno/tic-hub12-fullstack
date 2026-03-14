@@ -44,7 +44,12 @@ import logoMago from '@/assets/logo.png';
     </button>
   </div>
 </header>
-<router-view/>
+
+<router-view
+  :products="products"
+  :cart="cart"
+  :add-to-cart="addToCart"
+/>
 
 </div>
 
