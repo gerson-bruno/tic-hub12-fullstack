@@ -1,12 +1,16 @@
 
 @import "tailwindcss";
 
+
 body{
   font-family: 'Poppins', sans-serif;
   background-color: #faf7f2;
 }
 
-.p-button {
+
+
+
+/* .p-button {
   background: #78350f !important;
   border: #78350f !important;
   color: white !important;
@@ -15,4 +19,4 @@ body{
 .p-button:hover {
   background: #5b2a0c !important;
   border: #5b2a0c !important;
-}
+} */

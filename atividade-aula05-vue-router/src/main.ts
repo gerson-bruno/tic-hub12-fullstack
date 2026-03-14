@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './style.css'
+import './style.css' 
 
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
@@ -13,10 +13,7 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import ConfirmationService from 'primevue/confirmationservice'
 
 import 'primeicons/primeicons.css'
-
-import router from "./router"
-
-
+import router from './router'
 
 const app = createApp(App)
 
