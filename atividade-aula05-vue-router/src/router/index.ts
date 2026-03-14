@@ -30,25 +30,14 @@ meta: { requiresAuth: true }
 },
 
 {
-path: "/admin",
-component: AdminLayout,
-meta: { requiresAdmin: true },
-
-children: [
-
-{
-path: "products",
-component: AdminProducts
-},
-
-{
-path: "reports",
-component: AdminReports
-}
-
-]
-
-}
+    path: "/admin",
+    component: AdminLayout,
+    meta: { requiresAdmin: true },
+    children: [
+      { path: "products", component: AdminProducts },
+      { path: "reports", component: AdminReports }
+    ]
+  }
 
 ]
 
@@ -62,7 +51,9 @@ routes
 router.beforeEach((to, from, next) => {
 
 const isAuthenticated = false
-const isAdmin = false
+const isAdmin = false //para acessar o admin precisa estar true
+//http://localhost:5173/admin/products
+//http://localhost:5173/admin/reports
 
 if (to.meta.requiresAuth && !isAuthenticated) {
 alert("Você precisa estar logado.")
