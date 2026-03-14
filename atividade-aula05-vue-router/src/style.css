@@ -4,19 +4,12 @@
 
 body{
   font-family: 'Poppins', sans-serif;
-  background-color: #faf7f2;
+  background-color: #112632
+}
+
+h2{
+  color: white;
+  font-weight: bold;
 }
 
 
-
-
-/* .p-button {
-  background: #78350f !important;
-  border: #78350f !important;
-  color: white !important;
-}
-
-.p-button:hover {
-  background: #5b2a0c !important;
-  border: #5b2a0c !important;
-} */

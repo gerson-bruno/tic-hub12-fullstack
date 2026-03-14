@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-6xl mx-auto p-6">
+  <div class="max-w-[95%] mx-auto mt-6">
 
     <!-- Produtos -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -21,19 +21,30 @@
     </div>
 
     <!-- Carrinho -->
-    <h2 class="text-2xl font-bold mt-12 mb-4">Carrinho</h2>
+    <h2 class="text-2xl font-bold mt-12 mb-4 text-center text-[#112632]">Carrinho</h2>
 
-    <Card v-if="cart.length === 0" class="text-center p-6">
+    <Card v-if="cart.length === 0" class="text-center p-6 max-w-md mx-auto">
       Carrinho vazio
     </Card>
-
-    <ListBox v-else :options="cart" class="w-full">
+<ListBox
+      v-else
+      :options="cart"
+      class="w-full max-w-md mx-auto border border-gray-200 rounded-lg overflow-hidden !shadow-none"
+      :style="{ backgroundColor: '#fefefe' }"
+      :pt="{
+        item: { class: '!p-0 !bg-transparent' } 
+      }"
+    >
       <template #option="slotProps">
-        <div class="flex justify-between items-center w-full">
+        <div
+          class="flex justify-between items-center w-full p-3 hover:bg-[#1A3B4E]/5 transition-colors"
+        >
           <div>
-            <p class="font-semibold">{{ slotProps.option.name }}</p>
-            <p class="text-sm text-gray-500">
-              R$ {{ slotProps.option.price }} x {{ slotProps.option.quantity }}
+            <p class="font-semibold text-[#112632]">{{ slotProps.option.name }}</p>
+            <p class="text-sm text-[#5f7f9e]">
+              R$ {{ slotProps.option.price }} x {{ slotProps.option.quantity }} = R$ {{
+                (slotProps.option.price * slotProps.option.quantity).toFixed(2)
+              }}
             </p>
           </div>
 
@@ -44,12 +55,16 @@
             incrementButtonIcon="pi pi-plus"
             decrementButtonIcon="pi pi-minus"
             :min="1"
+            class="!w-24 !h-8"
+            inputClass="!w-8 !p-0 text-center text-xs border-y border-gray-200 focus:!border-[#1A3B4E] focus:!ring-1 focus:!ring-[#1A3B4E]"
+            incrementButtonClass="!w-7 !p-0 !bg-[#1A3B4E] !border-[#1A3B4E] !text-white focus:!ring-0"
+            decrementButtonClass="!w-7 !p-0 !bg-[#1A3B4E] !border-[#1A3B4E] !text-white focus:!ring-0"
           />
         </div>
       </template>
     </ListBox>
 
-    <div class="flex gap-4 mt-4">
+    <div class="flex gap-4 mt-4 justify-center">
       <Button
         label="Limpar Carrinho"
         icon="pi pi-trash"
@@ -60,7 +75,7 @@
         <Button
           label="Finalizar Compra"
           icon="pi pi-check"
-          class="bg-[#1A3B4E] hover:bg-[#1A3B4E]/100 text-white"
+          :style="{ backgroundColor: '#1A3B4E', borderColor: '#1A3B4E', color: 'white' }"
           :disabled="cart.length === 0"
         />
       </router-link>
@@ -70,13 +85,20 @@
   </div>
 </template>
 
+
+
 <script lang="ts">
 import ProductCard from "../components/ProductCard.vue"
 import { cart } from "../store/cart"
 import { type Product } from "../types/types"
+import InputNumber from "primevue/inputnumber"
+import Button from "primevue/button"
+import ListBox from "primevue/listbox"
+import Card from "primevue/card"
+import ConfirmDialog from "primevue/confirmdialog"
 
 export default {
-  components: { ProductCard },
+  components: { ProductCard, InputNumber, Button, ListBox, Card, ConfirmDialog },
   setup() {
     const products: Product[] = [
       { id: 1, name: "Café Especial Sul de Minas 250g", description: "Café especial de torra média produzido no Sul de Minas. Possui notas naturais de chocolate e caramelo, corpo equilibrado e aroma marcante, ideal para preparo filtrado ou espresso.", price: 28, image: "/src/assets/coffee01.png" },

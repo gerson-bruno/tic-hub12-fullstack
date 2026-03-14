@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Checkout</h1>
+    <h1 class="text-3xl font-bold mb-6 text-white">Checkout</h1>
 
     <Card v-if="cart.length === 0" class="text-center p-6">
       Seu carrinho está vazio.
@@ -11,8 +11,12 @@
         <template #option="slotProps">
           <div class="flex justify-between items-center w-full">
             <div>
-              <p class="font-semibold">{{ slotProps.option.name }}</p>
-              <p class="text-sm text-gray-500">
+              <!-- Nome do item -->
+              <p class="font-semibold" :style="{ color: '#112632' }">
+                {{ slotProps.option.name }}
+              </p>
+              <!-- Preço x quantidade = total -->
+              <p class="text-sm" :style="{ color: '#4B8ABF' }">
                 R$ {{ slotProps.option.price }} x {{ slotProps.option.quantity }} = R$ {{ (slotProps.option.price * slotProps.option.quantity).toFixed(2) }}
               </p>
             </div>
@@ -20,14 +24,14 @@
         </template>
       </ListBox>
 
-      <p class="text-xl font-bold text-right mb-4">
+      <p class="text-xl font-bold text-right mb-4 text-white">
         Total: R$ {{ total }}
       </p>
 
       <Button
         label="Confirmar Compra"
         icon="pi pi-check"
-        class="bg-[#1A3B4E] hover:bg-[#1A3B4E]/100 text-white"
+        :style="{ backgroundColor: '#1A3B4E', borderColor: '#1A3B4E', color: 'white' }"
         @click="completePurchase"
       />
     </div>

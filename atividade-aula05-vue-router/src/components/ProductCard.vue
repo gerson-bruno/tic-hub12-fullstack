@@ -1,5 +1,5 @@
 <template>
-  <Card class="shadow-lg rounded-xl overflow-hidden w-60 mx-auto">
+  <Card class="shadow-lg rounded-xl overflow-hidden w-80 mx-auto">
     <template #header>
       <img 
         :src="product.image"

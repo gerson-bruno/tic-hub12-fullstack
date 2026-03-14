@@ -18,24 +18,33 @@ import logoMago from '@/assets/logo.png';
             class="w-full h-full object-cover"
           />
         </div>
-        
+        <div class="flex flex-col">
         <h1 class="text-4xl font-bold tracking-tight text-stone-800">
           Cafeteria do 
           <span class="text-[#1A3B4E]">
             Mago
           </span>
         </h1>
+        <h2 class="text-sm  font-large text-[#1A3B4E]/70 tracking-wide mt-[-2px]">
+    Trazendo toda a magia ao seu café
+  </h2>
+  </div>
       </div>
 
-    <!-- <nav class="hidden md:flex items-center gap-8">
-      <a href="#" class="text-sm font-semibold text-stone-600 hover:text-amber-700 transition-colors">Menu</a>
-      <a href="#" class="text-sm font-semibold text-stone-600 hover:text-amber-700 transition-colors">Nossa Magia</a>
-      <a href="#" class="text-sm font-semibold text-stone-600 hover:text-amber-700 transition-colors">Grimório</a>
-      
-      <button class="px-6 py-2 text-sm font-bold rounded-full bg-stone-800 text-amber-50 shadow-md hover:bg-stone-700 transition-all active:scale-95">
-        Pedir Agora ☕
-      </button>
-    </nav> -->
+    <nav class="hidden md:flex items-center gap-8">
+  <router-link
+    to="/"
+    class="text-sm font-semibold text-[#1A3B4E] hover:text-[#1A3B4E]/80 transition-colors"
+  >
+    Início
+  </router-link>
+  <router-link
+    to="/checkout"
+    class="text-sm font-semibold text-[#1A3B4E] hover:text-[#1A3B4E]/80 transition-colors"
+  >
+    Carrinho
+  </router-link>
+</nav>
 
     <button class="md:hidden text-stone-800">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
