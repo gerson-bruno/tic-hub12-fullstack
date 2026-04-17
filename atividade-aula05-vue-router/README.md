@@ -1,12 +1,38 @@
-# Cafeteria do Mago ☕🧙🏼
+# .
 
-![Preview](src/assets/preview.png)
+This template should help get you started developing with Vue 3 in Vite.
 
-![Preview do Checkout](src/assets/preview-checkout.png)
+## Recommended IDE Setup
 
-![Preview do Painel Admin](src/assets/preview-admin.png)
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
+## Recommended Browser Setup
 
-Esse é um projeto de prática do programa TIC-12, feito para treinar Vue 3, PrimeVue e Tailwind CSS. 
-A ideia foi criar uma pequena loja de café, onde você consegue ver produtos, adicionar ao carrinho e alterar quantidades.
+- Chromium-based browsers (Chrome, Edge, Brave, etc.):
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
+- Firefox:
+  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
+## Customize configuration
+
+See [Vite Configuration Reference](https://vite.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
