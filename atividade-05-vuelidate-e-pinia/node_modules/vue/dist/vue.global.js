@@ -1,5 +1,5 @@
 /**
-* vue v3.5.32
+* vue v3.5.34
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -430,12 +430,18 @@ var Vue = (function (exports) {
        */
       this.cleanups = [];
       this._isPaused = false;
+      this._warnOnRun = true;
       this.__v_skip = true;
-      this.parent = activeEffectScope;
       if (!detached && activeEffectScope) {
-        this.index = (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(
-          this
-        ) - 1;
+        if (activeEffectScope.active) {
+          this.parent = activeEffectScope;
+          this.index = (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(
+            this
+          ) - 1;
+        } else {
+          this._active = false;
+          this._warnOnRun = false;
+        }
       }
     }
     get active() {
@@ -483,7 +489,7 @@ var Vue = (function (exports) {
         } finally {
           activeEffectScope = currentEffectScope;
         }
-      } else {
+      } else if (this._warnOnRun) {
         warn$2(`cannot run an inactive effect scope.`);
       }
     }
@@ -503,7 +509,18 @@ var Vue = (function (exports) {
      */
     off() {
       if (this._on > 0 && --this._on === 0) {
-        activeEffectScope = this.prevScope;
+        if (activeEffectScope === this) {
+          activeEffectScope = this.prevScope;
+        } else {
+          let current = activeEffectScope;
+          while (current) {
+            if (current.prevScope === this) {
+              current.prevScope = this.prevScope;
+              break;
+            }
+            current = current.prevScope;
+          }
+        }
         this.prevScope = void 0;
       }
     }
@@ -578,8 +595,12 @@ var Vue = (function (exports) {
        */
       this.cleanup = void 0;
       this.scheduler = void 0;
-      if (activeEffectScope && activeEffectScope.active) {
-        activeEffectScope.effects.push(this);
+      if (activeEffectScope) {
+        if (activeEffectScope.active) {
+          activeEffectScope.effects.push(this);
+        } else {
+          this.flags &= -2;
+        }
       }
     }
     pause() {
@@ -3275,7 +3296,7 @@ var Vue = (function (exports) {
         mc: mountChildren,
         pc: patchChildren,
         pbc: patchBlockChildren,
-        o: { insert, querySelector, createText, createComment }
+        o: { insert, querySelector, createText, createComment, parentNode }
       } = internals;
       const disabled = isTeleportDisabled(n2.props);
       let { dynamicChildren } = n2;
@@ -3323,7 +3344,8 @@ var Vue = (function (exports) {
           if (pendingMounts.get(vnode) !== mountJob) return;
           pendingMounts.delete(vnode);
           if (isTeleportDisabled(vnode.props)) {
-            mount(vnode, container, vnode.anchor);
+            const mountContainer = parentNode(vnode.el) || container;
+            mount(vnode, mountContainer, vnode.anchor);
             updateCssVars(vnode, true);
           }
           mountToTarget(vnode);
@@ -3485,7 +3507,7 @@ var Vue = (function (exports) {
     if (isReorder) {
       insert(el, container, parentAnchor);
     }
-    if (!isReorder || isTeleportDisabled(props)) {
+    if (!pendingMounts.has(vnode) && (!isReorder || isTeleportDisabled(props))) {
       if (shapeFlag & 16) {
         for (let i = 0; i < children.length; i++) {
           move(
@@ -3659,10 +3681,14 @@ var Vue = (function (exports) {
       const state = useTransitionState();
       return () => {
         const children = slots.default && getTransitionRawChildren(slots.default(), true);
-        if (!children || !children.length) {
+        const child = children && children.length ? findNonCommentChild(children) : (
+          // Keep explicit default-slot conditionals on the same transition path
+          // as regular v-if branches, which render a comment placeholder.
+          instance.subTree ? createCommentVNode() : void 0
+        );
+        if (!child) {
           return;
         }
-        const child = findNonCommentChild(children);
         const rawProps = toRaw(props);
         const { mode } = rawProps;
         if (mode && mode !== "in-out" && mode !== "out-in" && mode !== "default") {
@@ -7465,7 +7491,7 @@ If you want to remount the same app, move your app creation logic into a factory
     const receivedType = toRawType(value);
     const expectedValue = styleValue(value, expectedType);
     const receivedValue = styleValue(value, receivedType);
-    if (expectedTypes.length === 1 && isExplicable(expectedType) && !isBoolean(expectedType, receivedType)) {
+    if (expectedTypes.length === 1 && isExplicable(expectedType) && isCoercible(expectedType, receivedType)) {
       message += ` with value ${expectedValue}`;
     }
     message += `, got ${receivedType} `;
@@ -7475,7 +7501,9 @@ If you want to remount the same app, move your app creation logic into a factory
     return message;
   }
   function styleValue(value, type) {
-    if (type === "String") {
+    if (isSymbol(value)) {
+      return value.toString();
+    } else if (type === "String") {
       return `"${value}"`;
     } else if (type === "Number") {
       return `${Number(value)}`;
@@ -7487,8 +7515,11 @@ If you want to remount the same app, move your app creation logic into a factory
     const explicitTypes = ["string", "number", "boolean"];
     return explicitTypes.some((elem) => type.toLowerCase() === elem);
   }
-  function isBoolean(...args) {
-    return args.some((elem) => elem.toLowerCase() === "boolean");
+  function isCoercible(...args) {
+    return args.every((elem) => {
+      const value = elem.toLowerCase();
+      return value !== "boolean" && value !== "symbol";
+    });
   }
 
   const isInternalKey = (key) => key === "_" || key === "_ctx" || key === "$stable";
@@ -9508,13 +9539,14 @@ If you want to remount the same app, move your app creation logic into a factory
           suspense.isHydrating = false;
         } else if (!resume) {
           delayEnter = activeBranch && pendingBranch.transition && pendingBranch.transition.mode === "out-in";
+          let hasUpdatedAnchor = false;
           if (delayEnter) {
             activeBranch.transition.afterLeave = () => {
               if (pendingId === suspense.pendingId) {
                 move(
                   pendingBranch,
                   container2,
-                  anchor === initialAnchor ? next(activeBranch) : anchor,
+                  anchor === initialAnchor && !hasUpdatedAnchor ? next(activeBranch) : anchor,
                   0
                 );
                 queuePostFlushCb(effects);
@@ -9527,6 +9559,7 @@ If you want to remount the same app, move your app creation logic into a factory
           if (activeBranch && !suspense.isFallbackMountPending) {
             if (parentNode(activeBranch.el) === container2) {
               anchor = next(activeBranch);
+              hasUpdatedAnchor = true;
             }
             unmount(activeBranch, parentComponent2, suspense, true);
             if (!delayEnter && isInFallback && vnode2.ssFallback) {
@@ -10819,7 +10852,7 @@ Component that was made reactive: `,
     return true;
   }
 
-  const version = "3.5.32";
+  const version = "3.5.34";
   const warn = warn$1 ;
   const ErrorTypeStrings = ErrorTypeStrings$1 ;
   const devtools = devtools$1 ;
@@ -11347,7 +11380,19 @@ Component that was made reactive: `,
         if (key === "display") {
           hasControlledDisplay = true;
         }
-        setStyle(style, key, next[key]);
+        const value = next[key];
+        if (value != null) {
+          if (!shouldPreserveTextareaResizeStyle(
+            el,
+            key,
+            !isString(prev) && prev ? prev[key] : void 0,
+            value
+          )) {
+            setStyle(style, key, value);
+          }
+        } else {
+          setStyle(style, key, "");
+        }
       }
     } else {
       if (isCssString) {
@@ -11419,6 +11464,9 @@ Component that was made reactive: `,
       }
     }
     return rawName;
+  }
+  function shouldPreserveTextareaResizeStyle(el, key, prev, next) {
+    return el.tagName === "TEXTAREA" && (key === "width" || key === "height") && isString(next) && prev === next;
   }
 
   const xlinkNS = "http://www.w3.org/1999/xlink";
