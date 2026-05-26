@@ -4,7 +4,6 @@ const router = Router();
 
 // POST /orders
 router.post('/', (req: Request, res: Response) => {
-  // Validação de Body 
   if (!req.body || Object.keys(req.body).length === 0) {
     return res.status(400).json({ error: "Corpo da requisição vazio" });
   }
